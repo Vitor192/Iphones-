@@ -21,6 +21,21 @@ navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click'
   navigation.classList.remove('open');
 }));
 
-if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  document.querySelectorAll('video').forEach((video) => video.pause());
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const backgroundVideos = document.querySelectorAll('video');
+
+if (prefersReducedMotion) {
+  backgroundVideos.forEach((video) => video.pause());
+} else {
+  const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(({ target: video, isIntersecting }) => {
+      if (isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0.12 });
+
+  backgroundVideos.forEach((video) => videoObserver.observe(video));
 }
