@@ -236,7 +236,6 @@ export default function IphoneViewer() {
         <span className={`viewer-status${status.startsWith('Arraste') ? ' viewer-ready' : ''}`} role="status">{status}</span>
         <span className="stage-caption">IPHONE 18 PRO MAX <i>·</i> <span className="stage-color">{finish.name.toLocaleUpperCase('pt-BR')}</span></span>
       </div>
-      <p className="model-credit">Modelo 3D por <a href="https://sketchfab.com/Riju.mandal" target="_blank" rel="noopener noreferrer">Pro Animator</a> (Sketchfab), licença <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Modelo e materiais ajustados para a visualização de cores.</p>
     </>
   );
 }
