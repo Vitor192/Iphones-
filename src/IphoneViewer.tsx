@@ -18,13 +18,15 @@ const finishes: Finish[] = [
 ];
 
 const bodyMaterialPattern = /17ProMax_color(?:2|3)?$/i;
+const logoMaterialPattern = /17ProMax_Logo$/i;
 const modelUrl = `${import.meta.env.BASE_URL}assets/iphone-18-pro-max.glb`;
 
 function setBodyColor(root: THREE.Object3D, finish: Finish) {
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
     const update = (material: THREE.Material) => {
-      if (!(material instanceof THREE.MeshStandardMaterial) || !bodyMaterialPattern.test(material.name)) return;
+      if (!(material instanceof THREE.MeshStandardMaterial)) return;
+      if (!bodyMaterialPattern.test(material.name) && !logoMaterialPattern.test(material.name)) return;
       material.color.set(finish.hex);
       material.needsUpdate = true;
     };
