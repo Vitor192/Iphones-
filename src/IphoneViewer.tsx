@@ -38,6 +38,7 @@ function setBodyColor(root: THREE.Object3D, finish: Finish) {
 export default function IphoneViewer() {
   const hostRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<THREE.Object3D | null>(null);
+  const finishRef = useRef<Finish>(finishes[3]);
   const controlsRef = useRef<OrbitControls | null>(null);
   const autoRotateRef = useRef(false);
   const [finish, setFinish] = useState(finishes[3]);
@@ -138,7 +139,7 @@ export default function IphoneViewer() {
           pivot.add(model);
           scene.add(pivot);
           rootRef.current = model;
-          setBodyColor(model, finish);
+          setBodyColor(model, finishRef.current);
           controls?.target.set(0, 0, 0);
           controls?.update();
           setStatus('Arraste para girar e explorar o modelo em 3D.');
@@ -213,7 +214,10 @@ export default function IphoneViewer() {
               type="button"
               aria-label={item.name}
               aria-pressed={finish.id === item.id}
-              onClick={() => setFinish(item)}
+              onClick={() => {
+                finishRef.current = item;
+                setFinish(item);
+              }}
               data-finish={item.id}
               style={{ '--swatch-color': item.hex } as CSSProperties}
             ><span /></button>
