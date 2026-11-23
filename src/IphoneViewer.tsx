@@ -73,13 +73,13 @@ export default function IphoneViewer() {
         renderer.domElement.setAttribute('aria-label', 'Modelo 3D interativo do iPhone 18 Pro Max');
         host.replaceChildren(renderer.domElement);
 
-        const ambient = new THREE.HemisphereLight(0xdde8ff, 0x25212b, 0.75);
+        const ambient = new THREE.HemisphereLight(0xdde8ff, 0x25212b, 0.28);
         scene.add(ambient);
-        scene.environmentIntensity = 0.55;
-        const keyLight = new THREE.DirectionalLight(0xfff4e9, 1.6);
+        scene.environmentIntensity = 0.14;
+        const keyLight = new THREE.DirectionalLight(0xfff4e9, 0.8);
         keyLight.position.set(-4, 5, 7);
         scene.add(keyLight);
-        const rimLight = new THREE.DirectionalLight(0x9ebdff, 0.75);
+        const rimLight = new THREE.DirectionalLight(0x9ebdff, 0.22);
         rimLight.position.set(4, 1.5, -5);
         scene.add(rimLight);
 
