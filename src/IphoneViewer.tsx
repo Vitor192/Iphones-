@@ -20,14 +20,12 @@ const finishes: Finish[] = [
 const bodyMaterialPattern = /17ProMax_color(?:2|3)?$/i;
 const modelUrl = `${import.meta.env.BASE_URL}assets/iphone-18-pro-max.glb`;
 
-function setBodyColor(root: THREE.Object3D, finish: Finish, original: Map<string, THREE.Color>) {
+function setBodyColor(root: THREE.Object3D, finish: Finish) {
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
     const update = (material: THREE.Material) => {
       if (!(material instanceof THREE.MeshStandardMaterial) || !bodyMaterialPattern.test(material.name)) return;
-      const color = original.get(material.name);
-      if (finish.id === 'burgundy' && color) material.color.copy(color);
-      else material.color.set(finish.hex);
+      material.color.set(finish.hex);
       material.needsUpdate = true;
     };
     if (Array.isArray(object.material)) object.material.forEach(update);
@@ -40,7 +38,6 @@ export default function IphoneViewer() {
   const rootRef = useRef<THREE.Object3D | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
   const autoRotateRef = useRef(false);
-  const originalColors = useRef(new Map<string, THREE.Color>());
   const [finish, setFinish] = useState(finishes[3]);
   const [autoRotate, setAutoRotate] = useState(false);
   const [status, setStatus] = useState('Carregando modelo 3D…');
@@ -76,12 +73,13 @@ export default function IphoneViewer() {
         renderer.domElement.setAttribute('aria-label', 'Modelo 3D interativo do iPhone 18 Pro Max');
         host.replaceChildren(renderer.domElement);
 
-        const ambient = new THREE.HemisphereLight(0xdde8ff, 0x25212b, 2.0);
+        const ambient = new THREE.HemisphereLight(0xdde8ff, 0x25212b, 0.75);
         scene.add(ambient);
-        const keyLight = new THREE.DirectionalLight(0xfff4e9, 3.2);
+        scene.environmentIntensity = 0.55;
+        const keyLight = new THREE.DirectionalLight(0xfff4e9, 1.6);
         keyLight.position.set(-4, 5, 7);
         scene.add(keyLight);
-        const rimLight = new THREE.DirectionalLight(0x9ebdff, 2.4);
+        const rimLight = new THREE.DirectionalLight(0x9ebdff, 0.75);
         rimLight.position.set(4, 1.5, -5);
         scene.add(rimLight);
 
@@ -119,29 +117,26 @@ export default function IphoneViewer() {
           const model = gltf.scene;
           model.traverse((object) => {
             if (!(object instanceof THREE.Mesh)) return;
+            const meshSize = new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3());
+            if (Math.max(meshSize.x, meshSize.y, meshSize.z) > 20) {
+              object.removeFromParent();
+              return;
+            }
             object.castShadow = true;
             object.receiveShadow = true;
-            const materials = Array.isArray(object.material) ? object.material : [object.material];
-            materials.forEach((material) => {
-              if (material instanceof THREE.MeshStandardMaterial && bodyMaterialPattern.test(material.name)) {
-                if (!originalColors.current.has(material.name)) {
-                  originalColors.current.set(material.name, material.color.clone());
-                }
-              }
-            });
           });
 
           const bounds = new THREE.Box3().setFromObject(model);
           const center = bounds.getCenter(new THREE.Vector3());
           const size = bounds.getSize(new THREE.Vector3());
-          const scale = 4.6 / Math.max(size.y, size.x, size.z);
+          const scale = 4.8 / size.y;
           const pivot = new THREE.Group();
           model.scale.setScalar(scale);
           model.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
           pivot.add(model);
           scene.add(pivot);
           rootRef.current = model;
-          setBodyColor(model, finish, originalColors.current);
+          setBodyColor(model, finish);
           controls?.target.set(0, 0, 0);
           controls?.update();
           setStatus('Arraste para girar e explorar o modelo em 3D.');
@@ -190,7 +185,7 @@ export default function IphoneViewer() {
   }, []);
 
   useEffect(() => {
-    if (rootRef.current) setBodyColor(rootRef.current, finish, originalColors.current);
+    if (rootRef.current) setBodyColor(rootRef.current, finish);
   }, [finish]);
 
   useEffect(() => {
