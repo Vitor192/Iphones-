@@ -19,7 +19,7 @@ if (root) {
       observer.disconnect();
       loadViewer();
     }, { rootMargin: '400px' });
-    observer.observe(root);
+    observer.observe(root.closest('.iphone-lab') ?? root);
   } else {
     loadViewer();
   }
