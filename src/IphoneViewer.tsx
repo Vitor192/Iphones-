@@ -129,7 +129,7 @@ export default function IphoneViewer() {
           const bounds = new THREE.Box3().setFromObject(model);
           const center = bounds.getCenter(new THREE.Vector3());
           const size = bounds.getSize(new THREE.Vector3());
-          const scale = 4.8 / size.y;
+          const scale = 4.2 / size.y;
           const pivot = new THREE.Group();
           model.scale.setScalar(scale);
           model.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
@@ -227,7 +227,7 @@ export default function IphoneViewer() {
       <div className="phone-stage" role="group" aria-label="Visualizador 3D do iPhone 18 Pro Max. Arraste para girar.">
         <div className="stage-glow" /><div className="stage-ring ring-a" /><div className="stage-ring ring-b" />
         <div className="viewer-canvas-host" ref={hostRef} />
-        <span className="viewer-status" role="status">{status}</span>
+        <span className={`viewer-status${status.startsWith('Arraste') ? ' viewer-ready' : ''}`} role="status">{status}</span>
         <span className="stage-caption">IPHONE 18 PRO MAX <i>·</i> <span className="stage-color">{finish.name.toLocaleUpperCase('pt-BR')}</span></span>
       </div>
       <p className="model-credit">Modelo 3D por <a href="https://sketchfab.com/Riju.mandal" target="_blank" rel="noopener noreferrer">Pro Animator</a> (Sketchfab), licença <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Modelo e materiais ajustados para a visualização de cores.</p>
