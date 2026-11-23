@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <script type="module" src="./script.js"></script>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -60,30 +60,7 @@
         </article>
       </div>
       <section class="iphone-lab reveal" id="iphone-lab" aria-labelledby="iphone-lab-title">
-        <div class="lab-copy">
-          <p class="eyebrow"><i></i> EXPERIMENTE O ACABAMENTO</p>
-          <h2 id="iphone-lab-title">Seu iPhone.<br><em>Sua perspectiva.</em></h2>
-          <p>Arraste para girar o iPhone 18 Pro Max e escolha a cor que mais combina com você.</p>
-          <div class="finish-picker" role="group" aria-label="Escolha a cor do iPhone 18 Pro Max">
-            <button class="finish-swatch" type="button" data-finish="black" aria-label="Preto" aria-pressed="false"><span></span></button>
-            <button class="finish-swatch" type="button" data-finish="silver" aria-label="Prateado" aria-pressed="false"><span></span></button>
-            <button class="finish-swatch selected" type="button" data-finish="glacier" aria-label="Glacial" aria-pressed="true"><span></span></button>
-            <button class="finish-swatch" type="button" data-finish="burgundy" aria-label="Bordô" aria-pressed="false"><span></span></button>
-            <span class="finish-name" aria-live="polite">Glacial</span>
-          </div>
-          <div class="lab-controls"><button class="spin-toggle" type="button" aria-pressed="false"><span>↻</span> Girar automaticamente</button><span class="drag-hint">↔ ARRASTE PARA GIRAR</span></div>
-          <small class="lab-disclaimer">Visualização ilustrativa. Acabamentos e disponibilidade sujeitos a confirmação.</small>
-        </div>
-        <div class="phone-stage" tabindex="0" role="group" aria-label="Visualizador interativo do iPhone 18 Pro Max. Use as setas ou arraste o celular para girar.">
-          <div class="stage-glow"></div><div class="stage-ring ring-a"></div><div class="stage-ring ring-b"></div>
-          <div class="phone-model" data-finish="glacier" role="img" aria-label="iPhone 18 Pro Max na cor Glacial">
-            <div class="phone-core"></div>
-            <div class="phone-face phone-back"><img class="phone-reference-image" src="assets/iphone18-promax-back.jpeg" alt="" draggable="false"></div>
-            <div class="phone-face phone-front"><img class="phone-reference-image" src="assets/iphone18-promax-front.jpeg" alt="" draggable="false"></div>
-            <span class="phone-button phone-button-a"></span><span class="phone-button phone-button-b"></span><span class="phone-button phone-button-c"></span>
-          </div>
-          <span class="stage-caption">IPHONE 18 PRO MAX <i>·</i> <span class="stage-color">GLACIAL</span></span>
-        </div>
+        <div id="iphone-lab-app"></div>
       </section>
       <div class="collection-foot reveal"><span>Disponibilidade, cores e configurações podem variar.</span><a class="text-link" href="#contato">Converse com um especialista <span>↗</span></a></div>
     </section>
@@ -120,5 +97,6 @@
 
   <footer class="footer"><a class="brand" href="#inicio"><span class="brand-mark">V</span><span>VÉRTICE<span class="brand-dot">.</span></span></a><p>Uma nova perspectiva sobre tecnologia.</p><div class="footer-links"><a href="#contato">Atendimento ↗</a><a href="#inicio">Voltar ao topo ↑</a></div><small>© 2026 Vértice. Marca fictícia para apresentação.</small><small class="disclaimer">Apple, iPhone e demais marcas pertencem aos seus respectivos titulares. A Vértice não é afiliada à Apple Inc.</small></footer>
   <a class="agent-float" href="https://wa.me/5522997858575" target="_blank" rel="noopener" aria-label="Fale com um agente pelo WhatsApp"><span class="agent-icon">↗</span><span>Fale com agente</span></a>
+  <script type="module" src="./src/main.tsx"></script>
 </body>
 </html>
