@@ -18,7 +18,7 @@ if (root) {
       if (!entry.isIntersecting) return;
       observer.disconnect();
       loadViewer();
-    }, { rootMargin: '400px' });
+    }, { rootMargin: '900px' });
     observer.observe(root.closest('.iphone-lab') ?? root);
   } else {
     loadViewer();

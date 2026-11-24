@@ -43,6 +43,7 @@ export default function IphoneViewer() {
   const autoRotateRef = useRef(false);
   const [finish, setFinish] = useState(finishes[3]);
   const [autoRotate, setAutoRotate] = useState(false);
+  const [modelReady, setModelReady] = useState(false);
   const [status, setStatus] = useState('Carregando modelo 3D…');
 
   useEffect(() => {
@@ -142,6 +143,7 @@ export default function IphoneViewer() {
           setBodyColor(model, finishRef.current);
           controls?.target.set(0, 0, 0);
           controls?.update();
+          setModelReady(true);
           setStatus('Arraste para girar e explorar o modelo em 3D.');
         }, undefined, () => {
           if (!disposed) setStatus('Não foi possível carregar o modelo 3D. Atualize a página e tente novamente.');
@@ -163,7 +165,7 @@ export default function IphoneViewer() {
       if (!entry.isIntersecting) return;
       start();
       observer.disconnect();
-    }, { rootMargin: '180px' });
+    }, { rootMargin: '1000px' });
     observer.observe(host);
 
     return () => {
@@ -232,6 +234,7 @@ export default function IphoneViewer() {
       </div>
       <div className="phone-stage" role="group" aria-label="Visualizador 3D do iPhone 18 Pro Max. Arraste para girar.">
         <div className="stage-glow" /><div className="stage-ring ring-a" /><div className="stage-ring ring-b" />
+        <img className={`viewer-poster${modelReady ? ' viewer-poster-hidden' : ''}`} src={`${import.meta.env.BASE_URL}assets/iphone18-promax-back.jpeg`} alt="" aria-hidden="true" fetchPriority="high" />
         <div className="viewer-canvas-host" ref={hostRef} />
         <span className={`viewer-status${status.startsWith('Arraste') ? ' viewer-ready' : ''}`} role="status">{status}</span>
         <span className="stage-caption">IPHONE 18 PRO MAX <i>·</i> <span className="stage-color">{finish.name.toLocaleUpperCase('pt-BR')}</span></span>
